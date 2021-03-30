@@ -1,0 +1,23 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class ScanSurrounding : MonoBehaviour
+{
+
+    void Update(){
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            Collider[] hitColliders = Physics.OverlapSphere(transform.position, 5);
+        foreach (var hitCollider in hitColliders)
+        {
+            if(hitCollider.gameObject.GetComponent<ObjectType>().type == "Evidence"){
+                hitCollider.gameObject.GetComponent<Evidence>().show = true;
+                hitCollider.gameObject.GetComponent<BoxCollider>().isTrigger = true;
+                GetComponent<Inventory>().addItem(hitCollider.gameObject.GetComponent<Evidence>().itemID);
+            }
+        }
+            
+        }
+    }
+}
