@@ -1,0 +1,28 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Inventory : MonoBehaviour
+{
+    // Start is called before the first frame update
+    public List<Item> characterItems = new List<Item>();
+    public ItemDatabase itemDatabase;
+    
+
+    public void addItem(int id){
+        Item ItemExists = checkForItem(id);
+        if(ItemExists == null){
+            Item itemToAdd = itemDatabase.GetItem(id);
+            characterItems.Add(itemToAdd);
+            Debug.Log("Added item: " + itemToAdd.title);
+        } else {
+            Debug.Log("Item already in Inventory");
+        }
+    }
+
+    public Item checkForItem(int id){
+        return characterItems.Find(item => item.id == id);
+    }
+
+     
+}
