@@ -1,0 +1,21 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class ShowInventory : MonoBehaviour
+{
+    public Item item;
+
+    public void Use(){
+        Debug.Log("You clicked");
+    }
+    
+    public void updateInfo(){
+        Text displayText = transform.Find("Text").GetComponent<Text>();
+        Image displayImage = transform.Find("Image").GetComponent<Image>();
+
+        displayText.text = "Item";
+        displayImage.sprite = null;
+    }
+}
