@@ -1,0 +1,64 @@
+using UnityEngine;
+using System.Collections;
+
+[RequireComponent(typeof(LineRenderer))]
+public class Circle : MonoBehaviour
+{
+
+
+    [Range(0.1f, 100f)]
+    public float radius = 2;
+    public int count = 0;
+    public int hide = 0;
+    void Start(){
+    }
+    void Update(){
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            hide = 0;
+            InvokeRepeating("largerCircle", 0, 0.3f);
+            
+        }
+    }
+
+    public void largerCircle(){
+        radius += 1;
+        DoRenderer();
+        if(radius == 6){
+            radius = 2;
+            count += 1;
+        }
+        if(count == 4){
+            CancelInvoke("largerCircle");
+            hide = 1;
+            radius = 2;
+            count = 0;
+            DoRenderer();
+        }
+    }
+
+    public void DoRenderer()
+    {
+        var segments = 360;
+        var line = gameObject.GetComponent<LineRenderer>();
+        line.useWorldSpace = false;
+        line.startWidth = 0.2f;
+        line.endWidth = 0.2f;
+        line.positionCount = segments + 1;
+
+        var pointCount = segments + 1; // add extra point to make startpoint and endpoint the same to close the circle
+        var points = new Vector3[pointCount];
+
+        for (int i = 0; i < pointCount; i++)
+        {
+            var rad = Mathf.Deg2Rad * (i * 360f / segments);
+            points[i] = new Vector3(Mathf.Sin(rad) * radius, 0, Mathf.Cos(rad) * radius);
+        }
+
+        line.SetPositions(points);
+
+        if(hide == 1){
+            line.positionCount = 0;
+        }
+    }
+}
